@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Umbrella</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="title_zipcode_preference">Zip</string>
+    <string name="title_units_preference">Units</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celsius">Celsius</string>
+    <array name="entries_units_preference">
+        <item name="fahrenheit">@string/fahrenheit</item>
+        <item name="celsius">@string/celsius</item>
+    </array>
 </resources>

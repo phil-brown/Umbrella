@@ -1,5 +1,6 @@
 package com.nerdery.umbrella.activity;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -9,9 +10,9 @@ import com.nerdery.umbrella.R;
 import com.nerdery.umbrella.fragment.HomeFragment;
 
 /**
- * Main Activity
+ * Main Activity. Changed from "ActionBarActivity", since the min sdk already supports new Fragments.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
