@@ -2,6 +2,7 @@ package com.nerdery.umbrella.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -167,6 +168,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
      * Open the preferences fragment
      */
     private void openPreferences() {
-
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null && isAdded()) {
+            fragmentManager.beginTransaction().add(R.id.container, new PreferenceFragment()).addToBackStack(PreferenceFragment.class.getSimpleName()).commitAllowingStateLoss();
+        }
     }
 }
