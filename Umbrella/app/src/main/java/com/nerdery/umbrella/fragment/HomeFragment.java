@@ -176,14 +176,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private void update(WeatherData data) {
         mWeatherData.clear();
         mWeatherData.addAll(data.forecast);
+        String units = mSharedPreferences.getString(unitsKey, getString(R.string.default_units));
+        boolean isFahrenheit = fahrenheit.equals(units);
+        mForecastAdapter.setFahrenheit(isFahrenheit);
         mForecastAdapter.notifyDataSetChanged();
 
         //update current weather conditions.
         CurrentObservation observation = data.currentObservation;
         if (getActivity() != null && isAdded()) {
             city.setText(observation.displayLocation.getDisplayName());
-            String units = mSharedPreferences.getString(unitsKey, getString(R.string.default_units));
-            if (fahrenheit.equals(units)) {
+            if (isFahrenheit) {
                 temperature.setText(Html.fromHtml(((int) observation.tempFahrenheit) + "&deg;"));
             }
             else {

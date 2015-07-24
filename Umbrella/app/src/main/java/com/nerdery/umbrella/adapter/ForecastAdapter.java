@@ -28,44 +28,32 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastConditionViewH
 
     private Context mContext;
 
+    private boolean fahrenheit;
+
+    private List<ForecastCondition> mWeatherData;
+
     /**
      * Constructor
      * @param weatherData
      */
     public ForecastAdapter(Context context, List<ForecastCondition> weatherData) {
         mContext = context;
-        today = new ForecastCondition[24];
-        tomorrow = new ForecastCondition[24];
-        int index = 0;
-        ForecastCondition[] array = today;
-        ForecastCondition condition = null;
-        do {
-            condition = weatherData.get(index);
-            array[index] = condition;
-            index++;
-        }
-        while (condition != null && !condition.displayTime.equals("12:00 AM"));//TODO consider using condition.time with Calendar.
-        today = resizeArray(today);
-        array = tomorrow;
-        for (int i = 0; i < weatherData.size() - index; i++) {
-            array[i] = weatherData.get(i);
-        }
+        mWeatherData = weatherData;
+        updateForecast();
+    }
+
+
+
+    public void setFahrenheit(boolean fahrenheit) {
+        this.fahrenheit = fahrenheit;
     }
 
     public ForecastCondition[] getToday() {
         return today;
     }
 
-    public void setToday(ForecastCondition[] today) {
-        this.today = today;
-    }
-
     public ForecastCondition[] getTomorrow() {
         return tomorrow;
-    }
-
-    public void setTomorrow(ForecastCondition[] tomorrow) {
-        this.tomorrow = tomorrow;
     }
 
     @Override
@@ -77,17 +65,42 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastConditionViewH
         return new ForecastConditionViewHolder(itemView);
     }
 
+    public void updateForecast() {
+        if (mWeatherData == null || mWeatherData.isEmpty()) {
+            today = new ForecastCondition[0];
+            tomorrow = new ForecastCondition[0];
+            return;
+        }
+        today = new ForecastCondition[24];
+        tomorrow = new ForecastCondition[24];
+        int index = 0;
+        ForecastCondition[] array = today;
+        ForecastCondition condition = null;
+        do {
+            condition = mWeatherData.get(index);
+            array[index] = condition;
+            index++;
+        }
+        while (condition != null && !condition.displayTime.equals("12:00 AM"));//TODO consider using condition.time with Calendar.
+        today = resizeArray(today);
+        array = tomorrow;
+        for (int i = 0; i < mWeatherData.size() - index; i++) {
+            array[i] = mWeatherData.get(i);
+        }
+    }
+
     @Override
     public void onBindViewHolder(ForecastConditionViewHolder holder, int position) {
+        updateForecast();//FIXME not a good place to do calculation
         if (position == 0) {
             //today
             holder.day.setText("Today");
-            holder.grid.setAdapter(new ForecastGridAdapter(mContext, today));
+            holder.grid.setAdapter(new ForecastGridAdapter(mContext, today, fahrenheit));
         }
         else {
             //tomorrow
             holder.day.setText("Tomorrow");
-            holder.grid.setAdapter(new ForecastGridAdapter(mContext, tomorrow));
+            holder.grid.setAdapter(new ForecastGridAdapter(mContext, tomorrow, fahrenheit));
         }
     }
 
