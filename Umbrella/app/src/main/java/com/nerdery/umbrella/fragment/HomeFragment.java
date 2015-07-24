@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         DynamicGridLayoutManager llm = new DynamicGridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(llm);
 
-        mForecastAdapter = new ForecastAdapter(mWeatherData);
+        mForecastAdapter = new ForecastAdapter(getActivity(), mWeatherData);
         recyclerView.setAdapter(mForecastAdapter);
 
         currentCondition = view.findViewById(R.id.current_condition);

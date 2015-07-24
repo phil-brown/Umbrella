@@ -22,5 +22,6 @@ public class ForecastConditionViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         day = (TextView) itemView.findViewById(R.id.day);
         grid = (GridView) itemView.findViewById(R.id.grid);
+        grid.setColumnWidth(4);
     }
 }

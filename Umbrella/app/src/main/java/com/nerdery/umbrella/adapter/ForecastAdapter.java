@@ -1,5 +1,6 @@
 package com.nerdery.umbrella.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,17 +24,48 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastConditionViewH
     /**
      * The displayed data
      */
-    private List<ForecastCondition> mWeatherData;
+    private ForecastCondition[] today, tomorrow;
+
+    private Context mContext;
 
     /**
      * Constructor
      * @param weatherData
      */
-    public ForecastAdapter(List<ForecastCondition> weatherData) {
-        this.mWeatherData = weatherData;
-        if (this.mWeatherData == null) {
-            this.mWeatherData = new ArrayList<>();
+    public ForecastAdapter(Context context, List<ForecastCondition> weatherData) {
+        mContext = context;
+        today = new ForecastCondition[24];
+        tomorrow = new ForecastCondition[24];
+        int index = 0;
+        ForecastCondition[] array = today;
+        ForecastCondition condition = null;
+        do {
+            condition = weatherData.get(index);
+            array[index] = condition;
+            index++;
         }
+        while (condition != null && !condition.displayTime.equals("12:00 AM"));//TODO consider using condition.time with Calendar.
+        today = resizeArray(today);
+        array = tomorrow;
+        for (int i = 0; i < weatherData.size() - index; i++) {
+            array[i] = weatherData.get(i);
+        }
+    }
+
+    public ForecastCondition[] getToday() {
+        return today;
+    }
+
+    public void setToday(ForecastCondition[] today) {
+        this.today = today;
+    }
+
+    public ForecastCondition[] getTomorrow() {
+        return tomorrow;
+    }
+
+    public void setTomorrow(ForecastCondition[] tomorrow) {
+        this.tomorrow = tomorrow;
     }
 
     @Override
@@ -47,13 +79,46 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastConditionViewH
 
     @Override
     public void onBindViewHolder(ForecastConditionViewHolder holder, int position) {
-        ForecastCondition data = mWeatherData.get(position);
-        holder.day.setText(data.displayTime);
-        //TODO add more data as needed.
+        if (position == 0) {
+            //today
+            holder.day.setText("Today");
+            holder.grid.setAdapter(new ForecastGridAdapter(mContext, today));
+        }
+        else {
+            //tomorrow
+            holder.day.setText("Tomorrow");
+            holder.grid.setAdapter(new ForecastGridAdapter(mContext, tomorrow));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mWeatherData.size();
+        //Today and tomorrow
+        return 2;
+    }
+
+    /**
+     * Removes nulls
+     * @param array the array to resize
+     * @return a new, possibly shorter array with no nulls.
+     */
+    public static ForecastCondition[] resizeArray(ForecastCondition[] array) {
+        //all nulls will be at the front
+        ForecastCondition[] newArray = null;
+        int index = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                newArray = new ForecastCondition[array.length - i];
+                index = i;
+                break;
+            }
+        }
+        if (newArray == null) {
+            return new ForecastCondition[0];
+        }
+        for (int i = 0; i < newArray.length; i++) {
+            newArray[i] = array[index];
+        }
+        return newArray;
     }
 }
