@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">Umbrella</string>
+    <string name="could_not_refresh">Could not update</string>
 
+    <string name="key_zipcode_preference">zip_code</string>
     <string name="title_zipcode_preference">Zip</string>
+    <string name="key_units_preference">units</string>
     <string name="title_units_preference">Units</string>
     <string name="fahrenheit">Fahrenheit</string>
     <string name="celsius">Celsius</string>
+
+    <string name="invalid_input">Invalid Input</string>
+    <string name="invalid_zipcode">The Zip must be a 5-digit number value.</string>
+
+
     <array name="entries_units_preference">
         <item name="fahrenheit">@string/fahrenheit</item>
         <item name="celsius">@string/celsius</item>
