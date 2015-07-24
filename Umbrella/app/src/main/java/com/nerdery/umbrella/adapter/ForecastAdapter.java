@@ -48,7 +48,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastConditionViewH
     @Override
     public void onBindViewHolder(ForecastConditionViewHolder holder, int position) {
         ForecastCondition data = mWeatherData.get(position);
-        //TODO set layout values here.
+        holder.day.setText(data.displayTime);
+        //TODO add more data as needed.
     }
 
     @Override

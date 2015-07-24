@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.nerdery.umbrella.R;
+
 /**
  * ViewHolder for displaying a Forecast card in the layout.
  *
@@ -13,11 +15,12 @@ import android.widget.TextView;
  */
 public class ForecastConditionViewHolder extends RecyclerView.ViewHolder {
 
-    TextView day;
-    GridView grid;
+    public TextView day;
+    public GridView grid;
 
     public ForecastConditionViewHolder(View itemView) {
         super(itemView);
-        //TODO
+        day = (TextView) itemView.findViewById(R.id.day);
+        grid = (GridView) itemView.findViewById(R.id.grid);
     }
 }

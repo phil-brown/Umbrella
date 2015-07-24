@@ -8,6 +8,7 @@
     <ListPreference
         android:key="@string/key_units_preference"
         android:title="@string/title_units_preference"
+        android:defaultValue="@string/default_units"
         android:entries="@array/entries_units_preference"
         android:entryValues="@array/entries_units_preference" />
 </PreferenceScreen>

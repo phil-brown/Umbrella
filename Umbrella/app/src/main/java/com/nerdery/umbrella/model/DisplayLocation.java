@@ -14,4 +14,24 @@ public class DisplayLocation {
     public String state_name;
     public String country;
     public String zip;
+
+    /**
+     * Get the location name to show to the user.
+     * @return a formatted string displaying the user's location.
+     */
+    public String getDisplayName() {
+        if (city != null) {
+            if (state != null) {
+                return city + ", " + state;
+            }
+            if (state_name != null) {
+                return city + ", " + state_name;
+            }
+            return city;
+        }
+        else if (zip != null) {
+            return zip;
+        }
+        return full;//whatever is available
+    }
 }

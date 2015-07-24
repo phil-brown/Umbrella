@@ -4,14 +4,15 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    android:padding="@dimen/forecast_padding">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:text="Today"
+            android:id="@+id/day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <View
@@ -19,8 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="2dp" />
         <GridView
+            android:id="@+id/grid"
             android:layout_width="wrap_content"
-            android:layout_height="100dp">
+            android:layout_height="wrap_content">
 
         </GridView>
     </LinearLayout>

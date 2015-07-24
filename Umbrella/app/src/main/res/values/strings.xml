@@ -8,6 +8,7 @@
     <string name="title_units_preference">Units</string>
     <string name="fahrenheit">Fahrenheit</string>
     <string name="celsius">Celsius</string>
+    <string name="default_units">@string/celsius</string>
 
     <string name="invalid_input">Invalid Input</string>
     <string name="invalid_zipcode">The Zip must be a 5-digit number value.</string>

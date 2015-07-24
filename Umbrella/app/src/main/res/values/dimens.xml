@@ -7,4 +7,5 @@
     <dimen name="conditions_text_size">18sp</dimen>
     <dimen name="current_conditions_padding">16dp</dimen>
     <dimen name="current_conditions_height">200dp</dimen>
+    <dimen name="forecast_padding">16dp</dimen>
 </resources>
