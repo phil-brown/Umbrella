@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.nerdery.umbrella.BuildConfig;
 import com.nerdery.umbrella.R;
 import com.nerdery.umbrella.adapter.ForecastAdapter;
+import com.nerdery.umbrella.adapter.ForecastGridAdapter;
 import com.nerdery.umbrella.api.ApiManager;
 import com.nerdery.umbrella.model.CurrentObservation;
 import com.nerdery.umbrella.model.ForecastCondition;
@@ -47,32 +48,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * The latest weather data
      */
-    /* package */ List<ForecastCondition> mWeatherData;
+    private List<ForecastCondition> mWeatherData;
 
     /**
      * Adapter for displaying up-to-date forecast data
      */
-    /* package */ ForecastAdapter mForecastAdapter;
+    private ForecastAdapter mForecastAdapter;
 
     /**
      * SharedPreferences where user settings are stored
      */
-    /* package */ SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
     /**
      * SharedPreferences key for accessing the zipcode
      */
-    /* package */ String zipKey;
+    private String zipKey;
 
     /**
      * SharedPreferences key for accessing the units
      */
-    /* package */ String unitsKey;
+    private String unitsKey;
 
     /**
      * Fahrenheit units name, for String comparison
      */
-    /* package */ String fahrenheit;
+    private String fahrenheit;
 
     /**
      * Used to asynchronously retrieve the SharedPreferences.
@@ -80,26 +81,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private FutureTask<SharedPreferences> mFutureTask;
 
     /**
-     * View that holds the current conditions. This background changes based on temperature.
+     * Holds references to the view
      */
-    /* package */ View currentCondition;
-
-    /**
-     * Displays the city specified by the zip code
-     */
-    /* package */ TextView city;
-    /**
-     * Displays the current temperature in the user-specified units
-     */
-    /* package */ TextView temperature;
-    /**
-     * Current textual weather conditions, such as "clear"
-     */
-    /* package */ TextView condition;
-    /**
-     * Clicking this button takes the user to the settings screen
-     */
-    /* package */ ImageButton settings;
+    private ViewHolder mViewHolder;
 
     /**
      * Create a new HomeFragment object
@@ -143,12 +127,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mForecastAdapter = new ForecastAdapter(getActivity(), mWeatherData);
         recyclerView.setAdapter(mForecastAdapter);
 
-        currentCondition = view.findViewById(R.id.current_condition);
-        city = (TextView) view.findViewById(R.id.city);
-        temperature = (TextView) view.findViewById(R.id.current_temperature);
-        condition = (TextView) view.findViewById(R.id.current_conditions);
-        settings = (ImageButton) view.findViewById(R.id.btn_settings);
-        settings.setOnClickListener(this);
+        mViewHolder = new ViewHolder();
+        mViewHolder.currentCondition = view.findViewById(R.id.current_condition);
+        mViewHolder.city = (TextView) view.findViewById(R.id.city);
+        mViewHolder.temperature = (TextView) view.findViewById(R.id.current_temperature);
+        mViewHolder.condition = (TextView) view.findViewById(R.id.current_conditions);
+        mViewHolder.settings = (ImageButton) view.findViewById(R.id.btn_settings);
+        mViewHolder.settings.setOnClickListener(this);
 
         try {
             mSharedPreferences = mFutureTask.get();
@@ -157,6 +142,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         }
 
+        view.setTag(mViewHolder);//allows simple access to the view for tests
         return view;
     }
 
@@ -189,19 +175,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //update current weather conditions.
         CurrentObservation observation = data.currentObservation;
         if (getActivity() != null && isAdded()) {
-            city.setText(observation.displayLocation.getDisplayName());
+            mViewHolder.city.setText(observation.displayLocation.getDisplayName());
             if (isFahrenheit) {
-                temperature.setText(Html.fromHtml(((int) observation.tempFahrenheit) + "&deg;"));
+                mViewHolder.temperature.setText(Html.fromHtml(((int) observation.tempFahrenheit) + "&deg;"));
             }
             else {
-                temperature.setText(Html.fromHtml(((int) observation.tempCelsius) + "&deg;"));
+                mViewHolder.temperature.setText(Html.fromHtml(((int) observation.tempCelsius) + "&deg;"));
             }
-            condition.setText(observation.weather);
+            mViewHolder.condition.setText(observation.weather);
             if (observation.tempFahrenheit >= 60) {
-                currentCondition.setBackgroundColor(getResources().getColor(R.color.weather_warm));
+                mViewHolder.currentCondition.setBackgroundColor(getResources().getColor(R.color.weather_warm));
             }
             else {
-                currentCondition.setBackgroundColor(getResources().getColor(R.color.weather_cool));
+                mViewHolder.currentCondition.setBackgroundColor(getResources().getColor(R.color.weather_cool));
             }
         }
 
@@ -243,5 +229,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (fragmentManager != null && isAdded()) {
             fragmentManager.beginTransaction().replace(R.id.container, new PreferenceFragment()).addToBackStack(PreferenceFragment.class.getSimpleName()).commitAllowingStateLoss();
         }
+    }
+
+    /**
+     * ViewHolder that can be used to validate the instantiated view in a test.
+     */
+    /* package */ static class ViewHolder {
+        /**
+         * View that holds the current conditions. This background changes based on temperature.
+         */
+        public View currentCondition;
+
+        /**
+         * Displays the city specified by the zip code
+         */
+        public TextView city;
+        /**
+         * Displays the current temperature in the user-specified units
+         */
+        public TextView temperature;
+        /**
+         * Current textual weather conditions, such as "clear"
+         */
+        public TextView condition;
+        /**
+         * Clicking this button takes the user to the settings screen
+         */
+        public ImageButton settings;
     }
 }

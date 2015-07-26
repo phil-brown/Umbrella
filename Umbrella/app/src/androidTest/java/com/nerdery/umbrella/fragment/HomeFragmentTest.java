@@ -5,6 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.InstrumentationTestCase;
 import android.test.UiThreadTest;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import com.nerdery.umbrella.R;
 import com.nerdery.umbrella.activity.MainActivity;
@@ -42,16 +43,14 @@ public class HomeFragmentTest extends ActivityInstrumentationTestCase2<MainActiv
         HomeFragment fragment = (HomeFragment) fragmentManager.findFragmentById(R.id.container);
         assertNotNull("HomeFragment not shown", fragment);
 
-        assertNotNull(fragment.mWeatherData);
-        assertNotNull(fragment.mForecastAdapter);
-        assertNotNull(fragment.mSharedPreferences);
-        assertNotNull(fragment.zipKey);
-        assertNotNull(fragment.unitsKey);
-        assertNotNull(fragment.fahrenheit);
-        assertNotNull(fragment.currentCondition);
-        assertNotNull(fragment.city);
-        assertNotNull(fragment.temperature);
-        assertNotNull(fragment.condition);
-        assertNotNull(fragment.settings);
+        View view = fragment.getView();
+        assertNotNull(view);
+        HomeFragment.ViewHolder viewHolder = (HomeFragment.ViewHolder) view.getTag();
+        assertNotNull(viewHolder);
+        assertNotNull(viewHolder.currentCondition);
+        assertNotNull(viewHolder.city);
+        assertNotNull(viewHolder.temperature);
+        assertNotNull(viewHolder.condition);
+        assertNotNull(viewHolder.settings);
     }
 }
