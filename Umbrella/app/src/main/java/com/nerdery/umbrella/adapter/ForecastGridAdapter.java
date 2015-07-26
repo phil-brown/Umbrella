@@ -11,6 +11,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.nerdery.umbrella.R;
+import com.nerdery.umbrella.api.ApiManager;
+import com.nerdery.umbrella.api.IconApi;
 import com.nerdery.umbrella.model.ForecastCondition;
 import com.squareup.picasso.Picasso;
 
@@ -25,12 +27,14 @@ public class ForecastGridAdapter extends ArrayAdapter<ForecastCondition> {
     LayoutInflater mLayoutInflater;
     Context mContext;
     boolean fahrenheit;
+    private IconApi mIconApi;
 
     public ForecastGridAdapter(Context context, ForecastCondition[] conditions, boolean fahrenheit) {
         super(context, 0, conditions);
         mLayoutInflater = LayoutInflater.from(context);
         mContext = context;
         this.fahrenheit = fahrenheit;
+        mIconApi = ApiManager.getIconApi();
     }
 
     @Override
@@ -48,7 +52,7 @@ public class ForecastGridAdapter extends ArrayAdapter<ForecastCondition> {
         }
         ForecastCondition condition = getItem(position);
         holder.time.setText(condition.displayTime);
-        Picasso.with(mContext).load(condition.icon).into(holder.icon);
+        Picasso.with(mContext).load(mIconApi.getUrlForIcon(condition.condition, false)).into(holder.icon);
         if (fahrenheit) {
             holder.temperature.setText(Html.fromHtml(condition.tempFahrenheit + "&deg;"));
         }
@@ -60,7 +64,7 @@ public class ForecastGridAdapter extends ArrayAdapter<ForecastCondition> {
         return convertView;
     }
 
-    private class ViewHolder {
+    public static class ViewHolder {
         TextView time, temperature;
         ImageView icon;
     }

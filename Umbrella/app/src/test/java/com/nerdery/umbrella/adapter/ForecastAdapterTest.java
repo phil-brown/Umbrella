@@ -12,6 +12,10 @@ import junit.framework.TestCase;
  */
 public class ForecastAdapterTest extends TestCase {
 
+    /**
+     * Test the {@link ForecastAdapter#resizeArray(ForecastCondition[])} method.
+     * @throws Exception
+     */
     public void testResizeArray() throws Exception {
         ForecastCondition[] array = new ForecastCondition[24];
         for (int i = 9; i < 24; i++) {
@@ -19,5 +23,9 @@ public class ForecastAdapterTest extends TestCase {
         }
         ForecastCondition[] shrunk = ForecastAdapter.resizeArray(array);
         assertEquals("Resized to an incorrect length", 15, shrunk.length);
+    }
+
+    public void testGetCount() throws Exception {
+        assertEquals(2, adapter.getItemCount());
     }
 }

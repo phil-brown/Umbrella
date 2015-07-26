@@ -47,32 +47,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * The latest weather data
      */
-    private List<ForecastCondition> mWeatherData;
+    /* package */ List<ForecastCondition> mWeatherData;
 
     /**
      * Adapter for displaying up-to-date forecast data
      */
-    private ForecastAdapter mForecastAdapter;
+    /* package */ ForecastAdapter mForecastAdapter;
 
     /**
      * SharedPreferences where user settings are stored
      */
-    private SharedPreferences mSharedPreferences;
+    /* package */ SharedPreferences mSharedPreferences;
 
     /**
      * SharedPreferences key for accessing the zipcode
      */
-    private String zipKey;
+    /* package */ String zipKey;
 
     /**
      * SharedPreferences key for accessing the units
      */
-    private String unitsKey;
+    /* package */ String unitsKey;
 
     /**
      * Fahrenheit units name, for String comparison
      */
-    private String fahrenheit;
+    /* package */ String fahrenheit;
 
     /**
      * Used to asynchronously retrieve the SharedPreferences.
@@ -82,20 +82,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * View that holds the current conditions. This background changes based on temperature.
      */
-    private View currentCondition;
+    /* package */ View currentCondition;
 
     /**
      * Displays the city specified by the zip code
      */
-    private TextView city;
+    /* package */ TextView city;
     /**
      * Displays the current temperature in the user-specified units
      */
-    private TextView temperature;
+    /* package */ TextView temperature;
     /**
      * Current textual weather conditions, such as "clear"
      */
-    private TextView condition;
+    /* package */ TextView condition;
+    /**
+     * Clicking this button takes the user to the settings screen
+     */
+    /* package */ ImageButton settings;
 
     /**
      * Create a new HomeFragment object
@@ -124,6 +128,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mWeatherData = new ArrayList<>();//TODO get saved data from bundle
+        //TODO update(savedWeatherData)
     }
 
     @Override
@@ -142,7 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         city = (TextView) view.findViewById(R.id.city);
         temperature = (TextView) view.findViewById(R.id.current_temperature);
         condition = (TextView) view.findViewById(R.id.current_conditions);
-        ImageButton settings = (ImageButton) view.findViewById(R.id.btn_settings);
+        settings = (ImageButton) view.findViewById(R.id.btn_settings);
         settings.setOnClickListener(this);
 
         try {
@@ -233,7 +238,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     /**
      * Open the preferences fragment
      */
-    private void openPreferences() {
+    /* package */ void openPreferences() {
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager != null && isAdded()) {
             fragmentManager.beginTransaction().replace(R.id.container, new PreferenceFragment()).addToBackStack(PreferenceFragment.class.getSimpleName()).commitAllowingStateLoss();

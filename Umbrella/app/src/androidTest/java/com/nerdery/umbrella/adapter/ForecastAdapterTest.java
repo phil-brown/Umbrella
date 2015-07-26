@@ -16,9 +16,13 @@ import java.util.List;
  */
 public class ForecastAdapterTest extends InstrumentationTestCase {
 
-    @UiThreadTest
-    public void testConstructor() throws Exception {
-        List<ForecastCondition> list = new ArrayList<>(30);
+    private List<ForecastCondition> list;
+    private ForecastAdapter adapter;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        list = new ArrayList<>(30);
         ForecastCondition forecastCondition;
         for (int i = 6; i < 12; i++) {
             forecastCondition = new ForecastCondition();
@@ -43,14 +47,18 @@ public class ForecastAdapterTest extends InstrumentationTestCase {
             forecastCondition.displayTime = i + ":00 PM";
             list.add(forecastCondition);
         }
+        adapter = new ForecastAdapter(getInstrumentation().getContext(), list);
+    }
 
-        ForecastAdapter adapter = new ForecastAdapter(getInstrumentation().getContext(), list);
+    public void testGetToday() throws Exception {
         ForecastCondition[] today = adapter.getToday();
         assertNotNull(today);
         assertEquals("unexpected number of forecasts", 6, today.length);
+    }
+
+    public void testGetTomorrow() throws Exception {
         ForecastCondition[] tomorrow = adapter.getTomorrow();
         assertNotNull(tomorrow);
         assertEquals("unexpected number of forecasts", 24, tomorrow.length);
-
     }
 }

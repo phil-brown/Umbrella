@@ -15,13 +15,23 @@ import com.nerdery.umbrella.R;
  */
 public class ForecastConditionViewHolder extends RecyclerView.ViewHolder {
 
+    /**
+     * Displays the name of the day (Today or Tomorrow)
+     */
     public TextView day;
+    /**
+     * The Grid that displays the hourly weather conditions.
+     */
     public GridView grid;
 
+    /**
+     * Constructor
+     * @param itemView  The view to reference
+     */
     public ForecastConditionViewHolder(View itemView) {
         super(itemView);
         day = (TextView) itemView.findViewById(R.id.day);
         grid = (GridView) itemView.findViewById(R.id.grid);
-        grid.setColumnWidth(4);
+        grid.setNumColumns(4);
     }
 }
