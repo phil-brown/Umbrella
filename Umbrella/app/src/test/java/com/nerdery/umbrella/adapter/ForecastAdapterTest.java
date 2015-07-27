@@ -24,8 +24,4 @@ public class ForecastAdapterTest extends TestCase {
         ForecastCondition[] shrunk = ForecastAdapter.resizeArray(array);
         assertEquals("Resized to an incorrect length", 15, shrunk.length);
     }
-
-    public void testGetCount() throws Exception {
-        assertEquals(2, adapter.getItemCount());
-    }
 }

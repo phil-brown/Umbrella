@@ -61,4 +61,8 @@ public class ForecastAdapterTest extends InstrumentationTestCase {
         assertNotNull(tomorrow);
         assertEquals("unexpected number of forecasts", 24, tomorrow.length);
     }
+
+    public void testGetCount() throws Exception {
+        assertEquals(2, adapter.getItemCount());
+    }
 }

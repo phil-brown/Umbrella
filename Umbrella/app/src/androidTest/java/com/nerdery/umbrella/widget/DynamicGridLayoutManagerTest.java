@@ -33,7 +33,7 @@ public class DynamicGridLayoutManagerTest extends InstrumentationTestCase {
     @UiThreadTest
     @MediumTest
     public void testConstructors() throws Exception {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             new DynamicGridLayoutManager(mContext, i);
             new DynamicGridLayoutManager(mContext, i, HORIZONTAL, true);
             new DynamicGridLayoutManager(mContext, i, HORIZONTAL, false);

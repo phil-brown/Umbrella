@@ -2,6 +2,7 @@ package com.nerdery.umbrella.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,13 +74,13 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastConditionViewH
         }
         today = new ForecastCondition[24];
         tomorrow = new ForecastCondition[24];
-        int index = 0;
+        int index = -1;
         ForecastCondition[] array = today;
         ForecastCondition condition = null;
         do {
+            index++;
             condition = mWeatherData.get(index);
             array[index] = condition;
-            index++;
         }
         while (condition != null && !condition.displayTime.equals("12:00 AM"));//TODO consider using condition.time with Calendar.
         today = resizeArray(today);
